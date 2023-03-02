@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="true">
+    <springProfile name="local">
+
+        <!-- 로그 파일이 저장될 경로 -->
+        <property name="LOG_PATH" value="logs"/>
+        <!-- 로그 파일 이름 -->
+        <property name="LOG_FILE_NAME" value="kokkan"/>
+        <!-- 로그 출력 패턴 -->
+        <property name="LOG_PATTERN" value="[%date] [%thread] [%X{mdcId}:%X{userId}] [%logger{5}:%line] [%-5level] - %msg%n"/>
+        <!-- 로그 레벨 -->
+        <property name="LOG_LEVEL" value="info"/>
+        <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+            <layout class="ch.qos.logback.classic.PatternLayout">
+                <Pattern>
+                    <pattern>${LOG_PATTERN}</pattern>
+                </Pattern>
+            </layout>
+        </appender>
+
+        <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+            <file>${LOG_PATH}/${LOG_FILE_NAME}.log</file>
+            <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+                <pattern>${LOG_PATTERN}</pattern>
+            </encoder>
+            <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+                <fileNamePattern>${LOG_PATH}/${LOG_FILE_NAME}.%d{yyyy-MM-dd}_%i.log</fileNamePattern>
+                <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                    <maxFileSize>10MB</maxFileSize>
+                </timeBasedFileNamingAndTriggeringPolicy>
+                <maxHistory>30</maxHistory>
+            </rollingPolicy>
+        </appender>
+
+        <appender name="ERROR" class="ch.qos.logback.core.rolling.RollingFileAppender">
+            <filter class="ch.qos.logback.classic.filter.LevelFilter">
+                <level>error</level>
+                <onMatch>ACCEPT</onMatch>
+                <onMismatch>DENY</onMismatch>
+            </filter>
+            <file>${LOG_PATH}/${LOG_FILE_NAME}.err.log</file>
+            <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+                <pattern>${LOG_PATTERN}</pattern>
+            </encoder>
+            <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+                <fileNamePattern>${LOG_PATH}/${LOG_FILE_NAME}.err.%d{yyyy-MM-dd}_%i.log</fileNamePattern>
+                <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                    <maxFileSize>10MB</maxFileSize>
+                </timeBasedFileNamingAndTriggeringPolicy>
+                <maxHistory>30</maxHistory>
+            </rollingPolicy>
+        </appender>
+
+        <!-- 로그 전역 세팅 차후 운영 시 분리 필요 -->
+        <root level="${LOG_LEVEL}">
+            <appender-ref ref="CONSOLE"/>
+            <appender-ref ref="FILE"/>
+            <appender-ref ref="ERROR"/>
+        </root>
+
+        <!--<logger name="com.zaxxer.hikari" level="trace" >
+        </logger>-->
+
+        <logger name="com.kokkan.batch" level="info" >
+        </logger>
+
+    </springProfile>
+
+    <springProfile name="test">
+
+        <!-- 로그 파일이 저장될 경로 -->
+        <property name="LOG_PATH" value="/usr/local/batch/logs"/>
+        <!-- 로그 파일 이름 -->
+        <property name="LOG_FILE_NAME" value="kokkan"/>
+        <!-- 로그 출력 패턴 -->
+        <property name="LOG_PATTERN" value="[%date] [%thread] [%X{mdcId}:%X{userId}] [%logger{5}:%line] [%-5level] - %msg%n"/>
+        <!-- 로그 레벨 -->
+        <property name="LOG_LEVEL" value="info"/>
+        <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+            <layout class="ch.qos.logback.classic.PatternLayout">
+                <Pattern>
+                    <pattern>${LOG_PATTERN}</pattern>
+                </Pattern>
+            </layout>
+        </appender>
+
+        <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+            <file>${LOG_PATH}/${LOG_FILE_NAME}.log</file>
+            <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+                <pattern>${LOG_PATTERN}</pattern>
+            </encoder>
+            <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+                <fileNamePattern>${LOG_PATH}/${LOG_FILE_NAME}.%d{yyyy-MM-dd}_%i.log</fileNamePattern>
+                <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                    <maxFileSize>10MB</maxFileSize>
+                </timeBasedFileNamingAndTriggeringPolicy>
+                <maxHistory>30</maxHistory>
+            </rollingPolicy>
+        </appender>
+
+        <appender name="ERROR" class="ch.qos.logback.core.rolling.RollingFileAppender">
+            <filter class="ch.qos.logback.classic.filter.LevelFilter">
+                <level>error</level>
+                <onMatch>ACCEPT</onMatch>
+                <onMismatch>DENY</onMismatch>
+            </filter>
+            <file>${LOG_PATH}/${LOG_FILE_NAME}.err.log</file>
+            <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+                <pattern>${LOG_PATTERN}</pattern>
+            </encoder>
+            <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+                <fileNamePattern>${LOG_PATH}/${LOG_FILE_NAME}.err.%d{yyyy-MM-dd}_%i.log</fileNamePattern>
+                <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                    <maxFileSize>10MB</maxFileSize>
+                </timeBasedFileNamingAndTriggeringPolicy>
+                <maxHistory>30</maxHistory>
+            </rollingPolicy>
+        </appender>
+
+        <!-- 로그 전역 세팅 차후 운영 시 분리 필요 -->
+        <root level="${LOG_LEVEL}">
+            <appender-ref ref="CONSOLE"/>
+            <appender-ref ref="FILE"/>
+            <appender-ref ref="ERROR"/>
+        </root>
+
+        <!--<logger name="com.zaxxer.hikari" level="trace" >
+        </logger>-->
+
+        <logger name="com.kokkan.batch" level="debug" >
+        </logger>
+
+    </springProfile>
+
+
+    <springProfile name="prod">
+
+        <!-- 로그 파일이 저장될 경로 -->
+        <property name="LOG_PATH" value="/usr/local/batch/logs"/>
+        <!-- 로그 파일 이름 -->
+        <property name="LOG_FILE_NAME" value="kokkan"/>
+        <!-- 로그 출력 패턴 -->
+        <property name="LOG_PATTERN" value="[%date] [%thread] [%X{mdcId}:%X{userId}] [%logger{5}:%line] [%-5level] - %msg%n"/>
+        <!-- 로그 레벨 -->
+        <property name="LOG_LEVEL" value="info"/>
+        <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+            <layout class="ch.qos.logback.classic.PatternLayout">
+                <Pattern>
+                    <pattern>${LOG_PATTERN}</pattern>
+                </Pattern>
+            </layout>
+        </appender>
+
+        <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+            <file>${LOG_PATH}/${LOG_FILE_NAME}.log</file>
+            <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+                <pattern>${LOG_PATTERN}</pattern>
+            </encoder>
+            <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+                <fileNamePattern>${LOG_PATH}/${LOG_FILE_NAME}.%d{yyyy-MM-dd}_%i.log</fileNamePattern>
+                <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                    <maxFileSize>10MB</maxFileSize>
+                </timeBasedFileNamingAndTriggeringPolicy>
+                <maxHistory>30</maxHistory>
+            </rollingPolicy>
+        </appender>
+
+        <appender name="ERROR" class="ch.qos.logback.core.rolling.RollingFileAppender">
+            <filter class="ch.qos.logback.classic.filter.LevelFilter">
+                <level>error</level>
+                <onMatch>ACCEPT</onMatch>
+                <onMismatch>DENY</onMismatch>
+            </filter>
+            <file>${LOG_PATH}/${LOG_FILE_NAME}.err.log</file>
+            <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+                <pattern>${LOG_PATTERN}</pattern>
+            </encoder>
+            <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+                <fileNamePattern>${LOG_PATH}/${LOG_FILE_NAME}.err.%d{yyyy-MM-dd}_%i.log</fileNamePattern>
+                <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                    <maxFileSize>10MB</maxFileSize>
+                </timeBasedFileNamingAndTriggeringPolicy>
+                <maxHistory>30</maxHistory>
+            </rollingPolicy>
+        </appender>
+
+        <!-- 로그 전역 세팅 차후 운영 시 분리 필요 -->
+        <root level="${LOG_LEVEL}">
+            <appender-ref ref="CONSOLE"/>
+            <appender-ref ref="FILE"/>
+            <appender-ref ref="ERROR"/>
+        </root>
+
+        <!--<logger name="com.zaxxer.hikari" level="trace" >
+        </logger>-->
+
+        <logger name="com.kokkan.batch" level="debug" >
+        </logger>
+
+    </springProfile>
+
+
+
+</configuration>
